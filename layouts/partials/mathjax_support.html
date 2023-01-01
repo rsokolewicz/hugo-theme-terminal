@@ -3,8 +3,26 @@
         tex: {
             inlineMath: [['$', '$'], ['\\(', '\\)']],
             displayMath: [['$$', '$$'], ['\\[', '\\]']],
+            macros: {
+                bb: ["{\\boldsymbol{#1}}", 1],
+                tr: "{\\DeclareMathOperator{\\tr}{Tr}}",
+                im: "{\\DeclareMathOperator{\\im}{Im}}",
+                re: "{\\DeclareMathOperator{\\re}{Re}}",
+
+                // \DeclareMathOperator{\var}{var}
+                // \DeclareMathOperator{\tr}{Tr}
+                // \DeclareMathOperator{\diag}{diag}
+                // \DeclareMathOperator{\im}{Im}
+                // \DeclareMathOperator{\re}{Re}
+                // \DeclareMathOperator{\ctg}{cotan}
+                // \DeclareMathOperator{\arcsh}{arcsinh}
+                // \DeclareMathOperator{\rot}{rot}
+                // \DeclareMathOperator{\sign}{sign}
+                // \DeclareMathOperator{\dv}{div}
+            },
             processEscapes: true,
-            processEnvironments: true
+            processEnvironments: true,
+            tags: "ams"
         },
         options: {
             skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']

@@ -15,9 +15,12 @@
   <link rel="stylesheet" href="{{ (printf "assets/%s.css" $.Site.Params.ThemeColor) | absURL }}">
 {{ end }}
 
-<!-- Custom CSS to override theme properties (/static/style.css) -->
-{{ if (fileExists "static/style.css") -}}
-  <link rel="stylesheet" href="{{ "style.css" | absURL }}">
+<!-- Custom CSS to override theme properties (/static/css/style.css) -->
+{{ if (fileExists "static/assets/css/style.css") -}}
+  <link rel="stylesheet" href="{{ "assets/css/style.css" | absURL }}">
+{{- end }}
+{{ if (fileExists "static/assets/css/hugo-cite.css") -}}
+  <link rel="stylesheet" href="{{ "assets/css/hugo-cite.css" | absURL }}">
 {{- end }}
 
 <!-- Icons -->
@@ -76,5 +79,5 @@
 {{ partial "extended_head.html" . }}
 
 <!-- MathJax support-->
-{{ if .Params.mathjax }}{{ partial "mathjax_support.html" . }}{{ end }}
+{{ partial "mathjax_support.html" . }}
 
