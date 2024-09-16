@@ -23,5 +23,8 @@
   {{ end }}
 </div>
 
+{{ if .Params.extra_js }}
+    <script src="{{ .RelPermalink }}{{ .Params.extra_js }}"></script>
+{{ end }}
 </body>
 </html>

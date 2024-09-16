@@ -1,0 +1,71 @@
+{{ define "main" }}
+<div class="book-grid">
+  {{ range sort (where .Site.RegularPages "Section" "books") ".Params.date" "desc" }}
+    <a href="{{ .Permalink }}" class="book-item">
+      <img src="{{ .Params.cover_image }}" alt="{{ .Title }} cover">
+      <div class="overlay">
+        <div class="score">{{ .Params.score }}</div>
+      </div>
+    </a>
+  {{ end }}
+</div>
+
+<style>
+  .book-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    padding: 20px;
+  }
+
+  .book-item {
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 2/3;
+    transition: transform 0.3s ease;
+    display: block;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .book-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: filter 0.3s ease;
+  }
+
+  .book-item:hover {
+    transform: scale(1.05);
+  }
+
+  .book-item:hover img {
+    filter: brightness(0.7);
+  }
+
+  .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .book-item:hover .overlay {
+    opacity: 1;
+  }
+
+  .score {
+    font-size: 2rem;
+    color: white;
+    background-color: rgba(0, 0, 0, 0.7);
+    padding: 10px 20px;
+    border-radius: 5px;
+  }
+</style>
+{{ end }}

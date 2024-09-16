@@ -23,6 +23,12 @@
   <link rel="stylesheet" href="{{ "assets/css/hugo-cite.css" | absURL }}">
 {{- end }}
 
+
+{{ if .Params.extra_css }}
+  <link rel="stylesheet" href="{{ .RelPermalink }}{{ .Params.extra_css }}">
+{{ end }}
+
+
 <!-- Icons -->
 <link rel="apple-touch-icon" href="{{ "img/apple-touch-icon-192x192.png" | absURL }}">
 {{ if isset $.Site.Params "favicon" }}
