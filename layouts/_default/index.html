@@ -9,15 +9,23 @@
     {{ $contentTypeName := cond $isntDefault (string $.Site.Params.contentTypeName) "posts" }}
 
     {{ $PageContext := . }}
+    {{ $paginator := "" }}
     {{ if .IsHome }}
       {{ $PageContext = .Site }}
+      {{ $allPages := union (union (where .Site.RegularPages "Section" "books") (where .Site.RegularPages "Section" "physics")) (union (where .Site.RegularPages "Section" "posts") (where .Site.RegularPages "Section" "reading_papers")) }}
+      {{ $sortedPages := sort $allPages "Date" "desc" }}
+      {{ $paginator = .Paginate (where $sortedPages "Draft" false) }}
+    {{ else }}
+      {{ $paginator = .Paginate (where $PageContext.RegularPages "Type" $contentTypeName) }}
     {{ end }}
-    {{ $paginator := .Paginate (where $PageContext.RegularPages "Type" $contentTypeName) }}
 
     {{ range $paginator.Pages }}
       <div class="post on-list">
         <h1 class="post-title">
-          <a href="{{ .Permalink }}">{{ .Title | markdownify }}</a>
+          <a href="{{ .Permalink }}">
+            {{ if or (eq .Section "books") (eq .Section "reading_papers") }}[Review] {{ end }}
+            {{ .Title | markdownify }}
+          </a>
         </h1>
         <div class="post-meta">
           <span class="post-date">
