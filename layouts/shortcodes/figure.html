@@ -1,14 +1,32 @@
-{{ if .Get "src" }}
+{{ $src := .Get "src" }}
+{{ $path := $src }}
+{{ if hasPrefix $src "../" }}
+  {{ $path = path.Join .Page.File.Dir $src }}
+{{ else }}
+  {{ $path = path.Join .Page.File.Dir $src }}
+{{ end }}
+{{ $staticExists := fileExists (printf "static/%s" $path) }}
+{{ $contentExists := fileExists (printf "content/%s" $path) }}
+{{ $localExists := fileExists (path.Join "content" .Page.File.Dir $src) }}
+{{ if not (or $staticExists $contentExists $localExists) }}
+  {{ errorf "Image not found: %s (looked in static/%s, content/%s, and %s)" $src $path $path (path.Join "content" .Page.File.Dir $src) }}
+{{ end }}
+
+{{ if $src }}
   <figure class="{{ with .Get "position"}}{{ . }}{{ else -}} center {{- end }}" 
-    {{ with .Get "width" }} style="width: {{ . }};" {{ end }}>
+    {{ with .Get "width" }} style="width: {{ . }}; margin: 0 auto;" {{ else }} style="margin: 0 auto;" {{ end }}>
     <img src="{{ .Get "src" | safeURL }}" 
       {{ with .Get "alt" }} alt="{{ . | plainify }}" {{ end }}
       {{ with .Get "style" }} style="{{ . | safeCSS }}" {{ end }}
       {{ with .Get "width" }} width="{{ . }}" {{ end }}
       {{ with .Get "height" }} height="{{ . }}" {{ end }}
-      {{ with .Get "opacity" }} style="opacity: {{ . }};" {{ end }} />
+      {{ with .Get "opacity" }} style="opacity: {{ . }};" {{ end }}
+      style="display: block; margin: 0 auto;" />
     {{ if .Get "caption" }}
-      <figcaption class="{{ with .Get "captionPosition"}}{{ . }}{{ else -}} center {{- end }}" {{ with .Get "captionStyle" }} style="{{ . | safeCSS }}" {{ end }}>{{ .Get "caption" | safeHTML }}</figcaption>
+      <figcaption class="{{ with .Get "captionPosition"}}{{ . }}{{ else -}} center {{- end }}" 
+        style="text-align: center;{{ with .Get "captionStyle" }} {{ . | safeCSS }}{{ end }}">
+        {{ .Get "caption" | safeHTML }}
+      </figcaption>
     {{ end }}
   </figure>
 {{ end }}
